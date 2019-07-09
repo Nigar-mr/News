@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>Title</title>
+</head>
+
+<body>
+{#<-- Navbar -->#}
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #344039">
+    <a class="navbar-brand" style="color: rgba(206, 49, 49, 0.9);font-size: 35px;" href="#">News</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            {% for header in header_list %}
+                <li class="nav-item active">
+                    <a class="nav-link" style="color: rgba(38, 206, 22, 0.9);font-size: 25px;"
+                       href="#">{{ header.title }} <span
+                            class="sr-only">(current)</span></a>
+                </li>
+            {% endfor %}
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<br>
+{#<-- News -->#}
+<div class="container">
+    <div class="row">
+        <div class="card-group">
+            {% for news in news_list %}
+                <div class="col-4">
+                <div class="card" data-toggle="modal" data-target="#fullnews{{ forloop.counter }}">
+
+                    <img class="card-img-top" src="/media/{{ news.image }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ news.title }}</h5>
+                        <p class="card-text">{{ news.text|truncatechars:100 }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Last updated {{ news.publish_date }} </small>
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{#<-- Modal -->#}
+{% for news in news_list %}
+
+    <!-- Central Modal Large Info-->
+    <div class="modal fade" id="fullnews{{ forloop.counter }}" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <p class="heading lead">NEWS</p>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
+                        <h2>{{ news.title }}</h2>
+                    </div>
+                    <img src="/media/{{ news.image }}" alt="Material Design for Bootstrap - dashboard"
+                         class="img-fluid">
+{#                    <iframe>{{ news.url }}</iframe>#}
+                    <div class="text-center">{{ news.modal_text }}</div>
+                </div>
+
+                            <!--Footer-->
+                            <div class="modal-footer">
+{#                                <a type="button" class="btn btn-info">Get it now#}
+{#                                    <i class="far fa-gem ml-1"></i>#}
+{#                                </a>#}
+{#                                <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">No, thanks</a>#}
+                            </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+{% endfor %}
+
+<!-- Central Modal Large Info-->
+
+
+</body>
+
+</html>
